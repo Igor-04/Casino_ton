@@ -1,6 +1,9 @@
 // TON blockchain contract interactions
 import { CONFIG } from '../config'
 
+// Resolved contract address from environment configuration
+const CONTRACT_ADDRESS: string = CONFIG.CONTRACT_ADDRESS
+
 // Enums matching the smart contract
 export enum RoundMode {
   TIME_LOCKED = 0,
@@ -128,7 +131,10 @@ export async function getUserReferralStats(userAddress: string): Promise<Referra
 export async function createRound(params: CreateRoundParams): Promise<TransactionResult> {
   try {
     // TODO: Replace with actual contract call
-    console.log('Creating round with params:', params)
+    if (!CONTRACT_ADDRESS) {
+      return { success: false, error: 'Contract address not configured' }
+    }
+    console.log('Creating round on', CONTRACT_ADDRESS, 'with params:', params)
     
     // Simulate transaction delay
     await new Promise(resolve => setTimeout(resolve, 1000))
@@ -167,7 +173,10 @@ export async function createRound(params: CreateRoundParams): Promise<Transactio
 export async function joinRound(roundId: number, referrer?: string): Promise<TransactionResult> {
   try {
     // TODO: Replace with actual contract call
-    console.log('Joining round:', roundId, 'with referrer:', referrer)
+    if (!CONTRACT_ADDRESS) {
+      return { success: false, error: 'Contract address not configured' }
+    }
+    console.log('Joining round on', CONTRACT_ADDRESS, 'id:', roundId, 'referrer:', referrer)
     
     // Simulate transaction delay
     await new Promise(resolve => setTimeout(resolve, 1500))
@@ -195,7 +204,10 @@ export async function joinRound(roundId: number, referrer?: string): Promise<Tra
 export async function withdraw(roundId: number): Promise<TransactionResult> {
   try {
     // TODO: Replace with actual contract call
-    console.log('Withdrawing from round:', roundId)
+    if (!CONTRACT_ADDRESS) {
+      return { success: false, error: 'Contract address not configured' }
+    }
+    console.log('Withdrawing from round on', CONTRACT_ADDRESS, 'id:', roundId)
     
     // Simulate transaction delay
     await new Promise(resolve => setTimeout(resolve, 1000))
