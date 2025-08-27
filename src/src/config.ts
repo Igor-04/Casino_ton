@@ -1,7 +1,12 @@
 // Safe environment variable access
 const getEnvVar = (key: string, defaultValue: string = ''): string => {
   try {
-    return (typeof process !== 'undefined' && process.env?.[key]) || defaultValue
+    return (
+      // Vite exposes variables through import.meta.env
+      (typeof import.meta !== 'undefined' && (import.meta as any).env?.[key]) ||
+      (typeof process !== 'undefined' && (process as any).env?.[key]) ||
+      defaultValue
+    )
   } catch {
     return defaultValue
   }
