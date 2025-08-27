@@ -10,7 +10,7 @@ import { Onboarding } from './components/Onboarding'
 import { ThemeToggle } from './components/ThemeToggle'
 import { Button } from './components/ui/button'
 import { Alert, AlertDescription } from './components/ui/alert'
-import { toast } from 'sonner@2.0.3'
+import { toast } from "sonner";
 import { 
   Gamepad2, 
   History, 
