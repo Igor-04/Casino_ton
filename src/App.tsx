@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ErrorBoundary } from './components/ErrorBoundary'
-import { TonConnectProvider, useTonAddress, useTonWallet } from './components/TonConnectProvider'
+import { TonConnectProvider } from './components/TonConnectProvider'
+import { useTonAddress, useTonWallet } from '@tonconnect/ui-react'
 import { WalletConnect } from './components/WalletConnect'
 import { FeatureCards } from './components/FeatureCards'
 import { TabContent } from './components/TabContent'
