@@ -30,6 +30,7 @@
             "@radix-ui/react-toggle-group": "^1.1.2",
             "@radix-ui/react-tooltip": "^1.1.8",
             "@testing-library/react": "*",
+            "@ton/core": "^0.61.0",
             "@tonconnect/sdk": "^3.2.0",
             "@tonconnect/ui-react": "^2.2.0",
             "@vitejs/plugin-react": "*",
@@ -48,6 +49,7 @@
             "recharts": "^2.15.2",
             "sonner": "^2.0.3",
             "tailwind-merge": "*",
+            "ton": "^13.9.0",
             "vaul": "^1.1.2",
             "vite": "*",
             "vitest": "*"
