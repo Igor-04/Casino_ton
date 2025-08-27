@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from './ui/button'
 import { Card } from './ui/card'
 import { Badge } from './ui/badge'
-import { useTonConnectUI, useTonAddress, useTonWallet } from './TonConnectProvider'
+import { useTonConnectUI, useTonAddress, useTonWallet } from '@tonconnect/ui-react'
 import { 
   Wallet, 
   LogOut, 
