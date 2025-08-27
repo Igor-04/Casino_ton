@@ -33,6 +33,12 @@ message ReferralReward {
     roundId: Int as uint32;
 }
 
+// Административные сообщения
+message UpdateFee {
+    platformFeePercent: Int as uint8;
+    referralPercent: Int as uint8;
+}
+
 // Структуры данных
 struct Round {
     id: Int as uint32;
@@ -356,7 +362,17 @@ contract GameContract with Deployable {
     }
     
     receive("update_fee") {
-        require(context().sender == self.admin, "Only admin");
-        // Логика обновления комиссии
+        let ctx: Context = context();
+        require(ctx.sender == self.admin, "Only admin");
+
+        let slice: Slice = ctx.body.beginParse();
+        let msg: UpdateFee = slice.load(UpdateFee);
+
+        require(msg.platformFeePercent >= 0 && msg.platformFeePercent <= 100, "Invalid platform fee");
+        require(msg.referralPercent >= 0 && msg.referralPercent <= 100, "Invalid referral percent");
+        require(msg.referralPercent <= msg.platformFeePercent, "Referral exceeds fee");
+
+        self.platformFeePercent = msg.platformFeePercent;
+        self.referralPercent = msg.referralPercent;
     }
 }
