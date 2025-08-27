@@ -133,10 +133,16 @@ contract GameContract with Deployable {
             self.referrerOf.set(ctx.sender, msg.referrer!!);
             
             // Обновляем статистику реферера
-            let stats: ReferralStats = self.referralStats.get(msg.referrer!!) ?: 
-                ReferralStats{totalInvited: 0, totalEarned: 0, totalRewards: 0};
-            stats.totalInvited += 1;
-            self.referralStats.set(msg.referrer!!, stats);
+            let existingStats: ReferralStats? = self.referralStats.get(msg.referrer!!);
+            if (existingStats == null) {
+                let stats: ReferralStats = ReferralStats{totalInvited: 0, totalEarned: 0, totalRewards: 0};
+                stats.totalInvited += 1;
+                self.referralStats.set(msg.referrer!!, stats);
+            } else {
+                let stats: ReferralStats = existingStats!!;
+                stats.totalInvited += 1;
+                self.referralStats.set(msg.referrer!!, stats);
+            }
         }
         
         self._joinRound(msg.roundId, ctx.sender, round.stakeTON, msg.referrer);
@@ -194,11 +200,18 @@ contract GameContract with Deployable {
             });
             
             // Обновляем статистику реферера
-            let stats: ReferralStats = self.referralStats.get(referrer!!) ?: 
-                ReferralStats{totalInvited: 0, totalEarned: 0, totalRewards: 0};
-            stats.totalEarned += referralReward;
-            stats.totalRewards += 1;
-            self.referralStats.set(referrer!!, stats);
+            let existingStats: ReferralStats? = self.referralStats.get(referrer!!);
+            if (existingStats == null) {
+                let stats: ReferralStats = ReferralStats{totalInvited: 0, totalEarned: 0, totalRewards: 0};
+                stats.totalEarned += referralReward;
+                stats.totalRewards += 1;
+                self.referralStats.set(referrer!!, stats);
+            } else {
+                let stats: ReferralStats = existingStats!!;
+                stats.totalEarned += referralReward;
+                stats.totalRewards += 1;
+                self.referralStats.set(referrer!!, stats);
+            }
             
             // Отправляем оставшуюся комиссию администратору
             send(SendParameters{
@@ -224,10 +237,16 @@ contract GameContract with Deployable {
         self.referrerOf.set(ctx.sender, msg.inviter);
         
         // Обновляем статистику
-        let stats: ReferralStats = self.referralStats.get(msg.inviter) ?: 
-            ReferralStats{totalInvited: 0, totalEarned: 0, totalRewards: 0};
-        stats.totalInvited += 1;
-        self.referralStats.set(msg.inviter, stats);
+        let existingStats: ReferralStats? = self.referralStats.get(msg.inviter);
+        if (existingStats == null) {
+            let stats: ReferralStats = ReferralStats{totalInvited: 0, totalEarned: 0, totalRewards: 0};
+            stats.totalInvited += 1;
+            self.referralStats.set(msg.inviter, stats);
+        } else {
+            let stats: ReferralStats = existingStats!!;
+            stats.totalInvited += 1;
+            self.referralStats.set(msg.inviter, stats);
+        }
     }
     
     // ===============================
@@ -336,39 +355,8 @@ contract GameContract with Deployable {
         });
     }
     
-    receive(msg: "update_fee") {
+    receive("update_fee") {
         require(context().sender == self.admin, "Only admin");
         // Логика обновления комиссии
     }
 }
-```
-
-<figma type="summary">
-Добавил полную реферальную систему в TON Games приложение:
-
-**Новые компоненты:**
-• `ReferralSystem.tsx` - полный интерфейс реферальной программы с статистикой, управлением ссылками и историей наград
-• `types/referral.ts` - типы для реферальных данных и статистики
-• Новая вкладка "Профиль" с реферальной информацией
-• Реферальная карточка на главном экране
-
-**Функциональность:**
-• Генерация и копирование реферальных ссылок
-• Обработка URL-параметров для определения реферера
-• Отображение статистики: приглашенные друзья, заработанные TON, активные рефералы
-• История реферальных наград и детали по каждому приглашенному
-• Интеграция с Telegram для быстрого обмена ссылками
-
-**Техническая документация:**
-• Подробный README с описанием реферальной программы
-• Пример смарт-контракта на Tact с полной реализацией реферальной логики
-• API спецификации для бэкенда
-• Примеры расчета комиссий и наград
-
-**Принцип работы:**
-• 2% от комиссии идет рефереру, 98% - администратору
-• Одноразовая привязка реферера при первом участии
-• Автоматические выплаты через смарт-контракт
-• Полная прозрачность всех транзакций
-
-Реферальная система готова к интеграции и тестированию!
