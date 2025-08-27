@@ -19,14 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm ci
+
+      # ⬇️ ВАЖНО: меняем ci на install (без lock-файла)
+      - run: npm install
+
       - run: npm run build
-      # Фоллбек, чтобы не было 404 при обновлении страницы:
+
+      # SPA-фоллбек, чтобы не было 404 на внутренних маршрутах
       - run: cp dist/index.html dist/404.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
