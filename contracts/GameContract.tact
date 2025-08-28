@@ -35,8 +35,8 @@ message ReferralReward {
 
 // Административные сообщения
 message UpdateFee {
-    platformFeePercent: Int as uint8;
-    referralPercent: Int as uint8;
+    platformFeePercent: Int;
+    referralPercent: Int;
 }
 
 // Структуры данных
@@ -361,9 +361,11 @@ contract GameContract with Deployable {
         });
     }
     
-    receive(msg: UpdateFee) {
+
+
+receive(msg: UpdateFee) {
     let ctx: Context = context();
-    require(!ctx.bounced, "bounced");
+    // require(!ctx.bounced, "bounced");  // <-- ЭТО СТРОКУ УДАЛЯЕМ
     require(ctx.sender == self.admin, "Only admin");
 
     let p: Int = msg.platformFeePercent;

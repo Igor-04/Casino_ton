@@ -1,0 +1,1192 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; GameContract.tact_GameContract.headers.fc
+;;
+;; Header files for GameContract
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_int_neq_nullable_left
+int __tact_int_neq_nullable_left(int a, int b) inline;
+
+;; __tact_dict_get_slice_slice
+slice __tact_dict_get_slice_slice(cell d, int kl, slice k) inline;
+
+;; __tact_dict_set_slice_slice
+(cell, ()) __tact_dict_set_slice_slice(cell d, int kl, slice k, slice v) inline;
+
+;; __tact_dict_get_slice_int
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline;
+
+;; __tact_dict_set_slice_int
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline;
+
+;; __tact_dict_get_slice_cell
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline;
+
+;; __tact_dict_set_slice_cell
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline;
+
+;; __tact_dict_get_int_slice
+slice __tact_dict_get_int_slice(cell d, int kl, int k) inline;
+
+;; __tact_dict_set_int_slice
+(cell, ()) __tact_dict_set_int_slice(cell d, int kl, int k, slice v) inline;
+
+;; __tact_dict_get_int_int
+int __tact_dict_get_int_int(cell d, int kl, int k, int vl) inline;
+
+;; __tact_dict_set_int_int
+(cell, ()) __tact_dict_set_int_int(cell d, int kl, int k, int v, int vl) inline;
+
+;; __tact_dict_get_int_cell
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline;
+
+;; __tact_dict_set_int_cell
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline;
+
+;; $DeployOk$_store
+builder $DeployOk$_store(builder build_0, (int) v) inline;
+
+;; $DeployOk$_store_cell
+cell $DeployOk$_store_cell((int) v, builder b) inline;
+
+;; $ReferralReward$_store
+builder $ReferralReward$_store(builder build_0, (slice, int, int) v) inline;
+
+;; $ReferralReward$_store_cell
+cell $ReferralReward$_store_cell((slice, int, int) v, builder b) inline;
+
+;; $Round$_store
+builder $Round$_store(builder build_0, (int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) v) inline_ref;
+
+;; $Round$_store_cell
+cell $Round$_store_cell((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) v, builder b) inline;
+
+;; $Round$_load
+(slice, ((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int))) $Round$_load(slice sc_0) inline_ref;
+
+;; $Round$_as_optional
+tuple $Round$_as_optional((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) v) inline;
+
+;; $Round$_load_opt
+tuple $Round$_load_opt(cell cl) inline;
+
+;; $ReferralStats$_store
+builder $ReferralStats$_store(builder build_0, (int, int, int) v) inline;
+
+;; $ReferralStats$_store_cell
+cell $ReferralStats$_store_cell((int, int, int) v, builder b) inline;
+
+;; $ReferralStats$_load
+(slice, ((int, int, int))) $ReferralStats$_load(slice sc_0) inline;
+
+;; $ReferralStats$_as_optional
+tuple $ReferralStats$_as_optional((int, int, int) v) inline;
+
+;; $ReferralStats$_load_opt
+tuple $ReferralStats$_load_opt(cell cl) inline;
+
+;; $GameContract$_store
+builder $GameContract$_store(builder build_0, (slice, int, int, int, cell, cell, cell, int, int, int, int) v) inline;
+
+;; $GameContract$_load
+(slice, ((slice, int, int, int, cell, cell, cell, int, int, int, int))) $GameContract$_load(slice sc_0) inline;
+
+;; $Context$_get_value
+_ $Context$_get_value((int, slice, int, slice) v) inline;
+
+;; $Round$_not_null
+((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int)) $Round$_not_null(tuple v) inline;
+
+;; $Round$_to_tuple
+tuple $Round$_to_tuple(((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int)) v) inline;
+
+;; $Round$_to_opt_tuple
+tuple $Round$_to_opt_tuple(tuple v) inline;
+
+;; $Round$_to_opt_external
+tuple $Round$_to_opt_external(tuple v) inline;
+
+;; $ReferralStats$_not_null
+((int, int, int)) $ReferralStats$_not_null(tuple v) inline;
+
+;; $ReferralStats$_to_tuple
+tuple $ReferralStats$_to_tuple(((int, int, int)) v) inline;
+
+;; $ReferralStats$_to_opt_tuple
+tuple $ReferralStats$_to_opt_tuple(tuple v) inline;
+
+;; $ReferralStats$_to_opt_external
+tuple $ReferralStats$_to_opt_external(tuple v) inline;
+
+;; $GameContract$init$_load
+(slice, ((slice))) $GameContract$init$_load(slice sc_0) inline;
+
+;; $GameContract$_contract_init
+(slice, int, int, int, cell, cell, cell, int, int, int, int) $GameContract$_contract_init(slice $admin) impure inline;
+
+;; $GameContract$_contract_load
+(slice, int, int, int, cell, cell, cell, int, int, int, int) $GameContract$_contract_load() impure inline;
+
+;; $GameContract$_contract_store
+() $GameContract$_contract_store((slice, int, int, int, cell, cell, cell, int, int, int, int) v) impure inline;
+
+;; $SendParameters$_constructor_to_value_mode_body
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline;
+
+;; $ReferralReward$_constructor_fromUser_amount_roundId
+((slice, int, int)) $ReferralReward$_constructor_fromUser_amount_roundId(slice $fromUser, int $amount, int $roundId) inline;
+
+;; $ReferralStats$_constructor_totalInvited_totalEarned_totalRewards
+((int, int, int)) $ReferralStats$_constructor_totalInvited_totalEarned_totalRewards(int $totalInvited, int $totalEarned, int $totalRewards) inline;
+
+;; $SendParameters$_constructor_to_value_mode
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode(slice $to, int $value, int $mode) inline;
+
+;; $GameContract$_fun__distributeCommission
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun__distributeCommission((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, int $totalFee, slice $participant) impure inline_ref;
+
+;; $GameContract$_fun__joinRound
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun__joinRound((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, int $roundId, slice $participant, int $stakeTON, slice $referrer) impure inline_ref;
+
+;; $GameContract$_fun__distributePrizes
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun__distributePrizes((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, (int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) $round, int $seed, int $blockHash) impure inline_ref;
+
+;; $GameContract$_fun_getRound
+((slice, int, int, int, cell, cell, cell, int, int, int, int), tuple) $GameContract$_fun_getRound((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, int $roundId) impure inline_ref;
+
+;; $GameContract$_fun_getReferrer
+((slice, int, int, int, cell, cell, cell, int, int, int, int), slice) $GameContract$_fun_getReferrer((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, slice $user) impure inline_ref;
+
+;; $GameContract$_fun_getReferralStats
+((slice, int, int, int, cell, cell, cell, int, int, int, int), tuple) $GameContract$_fun_getReferralStats((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, slice $user) impure inline_ref;
+
+;; $GameContract$_fun_getTotalRounds
+((slice, int, int, int, cell, cell, cell, int, int, int, int), int) $GameContract$_fun_getTotalRounds((slice, int, int, int, cell, cell, cell, int, int, int, int) $self) impure inline_ref;
+
+;; $GameContract$_fun_getPlatformFeePercent
+((slice, int, int, int, cell, cell, cell, int, int, int, int), int) $GameContract$_fun_getPlatformFeePercent((slice, int, int, int, cell, cell, cell, int, int, int, int) $self) impure inline_ref;
+
+;; $GameContract$_fun_getReferralPercent
+((slice, int, int, int, cell, cell, cell, int, int, int, int), int) $GameContract$_fun_getReferralPercent((slice, int, int, int, cell, cell, cell, int, int, int, int) $self) impure inline_ref;
+
+;; $MessageParameters$_constructor_bounce_to_value_mode_body
+((int, cell, int, slice, int)) $MessageParameters$_constructor_bounce_to_value_mode_body(int $bounce, slice $to, int $value, int $mode, cell $body) inline;
+
+;; $GameContract$_fun_notify
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun_notify((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, cell $body) impure inline;
+
+;; $Round$_constructor_id_creator_stakeTON_mode_status_participants_participantsList_participantsCount_deadline_targetParticipants_bank_platformFee_distributedAt_seed_blockHash
+((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int)) $Round$_constructor_id_creator_stakeTON_mode_status_participants_participantsList_participantsCount_deadline_targetParticipants_bank_platformFee_distributedAt_seed_blockHash(int $id, slice $creator, int $stakeTON, int $mode, int $status, cell $participants, cell $participantsList, int $participantsCount, int $deadline, int $targetParticipants, int $bank, int $platformFee, int $distributedAt, int $seed, int $blockHash) inline;
+
+;; $DeployOk$_constructor_queryId
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline;
+
+
+;; GameContract.tact_GameContract.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+(slice, slice) __tact_load_address_opt(slice cs) asm """
+
+            b{00} SDBEGINSQ
+            IF:<{
+              PUSHNULL
+            }>ELSE<{
+              LDMSGADDR
+              SWAP
+            }>
+
+""";
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+(cell, int) __tact_dict_delete(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTDEL
+""";
+
+((cell), ()) __tact_dict_set_ref(cell dict, int key_len, slice index, cell value) asm(value index dict key_len) """
+    DICTSETREF
+""";
+
+(slice, int) __tact_dict_get(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGET NULLSWAPIFNOT
+""";
+
+(cell, int) __tact_dict_get_ref(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGETREF NULLSWAPIFNOT
+""";
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+int __tact_int_neq_nullable_left(int a, int b) inline {
+    return (null?(a)) ? (true) : (a != b);
+}
+
+forall X0, X1, X2 -> tuple __tact_tuple_create_3((X0, X1, X2) v) asm """
+    3 TUPLE
+""";
+
+forall X0, X1, X2 -> (X0, X1, X2) __tact_tuple_destroy_3(tuple v) asm """
+    3 UNTUPLE
+""";
+
+forall X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14 -> tuple __tact_tuple_create_15((X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14) v) asm """
+    15 TUPLE
+""";
+
+forall X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14 -> (X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14) __tact_tuple_destroy_15(tuple v) asm """
+    15 UNTUPLE
+""";
+
+slice __tact_dict_get_slice_slice(cell d, int kl, slice k) inline {
+    var (r, ok) = __tact_dict_get(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_slice(cell d, int kl, slice k, slice v) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return (dict_set_builder(d, kl, k, begin_cell().store_slice(v)), ());
+    }
+}
+
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline {
+    var (r, ok) = __tact_dict_get(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return (dict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline {
+    var (r, ok) = __tact_dict_get_ref(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return __tact_dict_set_ref(d, kl, k, v);
+    }
+}
+
+slice __tact_dict_get_int_slice(cell d, int kl, int k) inline {
+    var (r, ok) = idict_get?(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_slice(cell d, int kl, int k, slice v) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set(d, kl, k, v), ());
+    }
+}
+
+int __tact_dict_get_int_int(cell d, int kl, int k, int vl) inline {
+    var (r, ok) = idict_get?(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_int(cell d, int kl, int k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline {
+    var (r, ok) = idict_get_ref?(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_ref(d, kl, k, v), ());
+    }
+}
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_nativeReserve(int $amount, int $mode) impure asm """
+    RAWRESERVE
+""";
+
+() $global_message((int, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    106 PUSHINT         // 1 + 4 + 4 + 64 + 32 + 1
+    STZEROES
+    // → Stack state
+    // s0: Builder
+    // s1: `body`
+    // s2: `mode`
+    STDICT
+    ENDC
+    SWAP
+    SENDRAWMSG
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+int $global_now() impure asm """
+    NOW
+""";
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun_notify((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, cell $body) impure inline {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    slice $to = __tact_context_get_sender();
+    int $bounce = false;
+    if (false) {
+        int $balance = $global_myBalance();
+        int $balanceBeforeMessage = ($balance - $Context$_get_value(__tact_context_get()));
+        if (($balanceBeforeMessage < 0)) {
+            $global_nativeReserve(0, 0);
+            $global_message($MessageParameters$_constructor_bounce_to_value_mode_body($bounce, $to, 0, 130, $body));
+            return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), ());
+        }
+    }
+    $global_message($MessageParameters$_constructor_bounce_to_value_mode_body($bounce, $to, 0, 66, $body));
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), ());
+}
+
+;; GameContract.tact_GameContract.storage.fc
+;;
+;; Type: Context
+;; TLB: _ bounceable:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounceable, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode_body(slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, null(), null(), $value, $to, true);
+}
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_mode(slice $to, int $value, int $mode) inline {
+    return ($mode, null(), null(), null(), $value, $to, true);
+}
+
+;;
+;; Type: MessageParameters
+;; TLB: _ mode:int257 body:Maybe ^cell value:int257 to:address bounce:bool = MessageParameters
+;;
+
+((int, cell, int, slice, int)) $MessageParameters$_constructor_bounce_to_value_mode_body(int $bounce, slice $to, int $value, int $mode, cell $body) inline {
+    return ($mode, $body, $value, $to, $bounce);
+}
+
+;;
+;; Type: DeployOk
+;; Header: 0xaff90f57
+;; TLB: deploy_ok#aff90f57 queryId:uint64 = DeployOk
+;;
+
+builder $DeployOk$_store(builder build_0, (int) v) inline {
+    var (v'queryId) = v;
+    build_0 = store_uint(build_0, 2952335191, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    return build_0;
+}
+
+cell $DeployOk$_store_cell((int) v, builder b) inline {
+    return $DeployOk$_store(b, v).end_cell();
+}
+
+((int)) $DeployOk$_constructor_queryId(int $queryId) inline {
+    return ($queryId);
+}
+
+;;
+;; Type: ReferralReward
+;; Header: 0xca876917
+;; TLB: referral_reward#ca876917 fromUser:address amount:coins roundId:uint32 = ReferralReward
+;;
+
+builder $ReferralReward$_store(builder build_0, (slice, int, int) v) inline {
+    var (v'fromUser, v'amount, v'roundId) = v;
+    build_0 = store_uint(build_0, 3397871895, 32);
+    build_0 = build_0.store_slice(v'fromUser);
+    build_0 = build_0.store_varuint16(v'amount);
+    build_0 = build_0.store_uint(v'roundId, 32);
+    return build_0;
+}
+
+cell $ReferralReward$_store_cell((slice, int, int) v, builder b) inline {
+    return $ReferralReward$_store(b, v).end_cell();
+}
+
+((slice, int, int)) $ReferralReward$_constructor_fromUser_amount_roundId(slice $fromUser, int $amount, int $roundId) inline {
+    return ($fromUser, $amount, $roundId);
+}
+
+;;
+;; Type: Round
+;; TLB: _ id:uint32 creator:address stakeTON:coins mode:uint8 status:uint8 participants:dict<address, bool> participantsList:dict<int, address> participantsCount:uint16 deadline:uint32 targetParticipants:uint16 bank:coins platformFee:coins distributedAt:uint32 seed:uint256 blockHash:uint256 = Round
+;;
+
+builder $Round$_store(builder build_0, (int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) v) inline_ref {
+    var (v'id, v'creator, v'stakeTON, v'mode, v'status, v'participants, v'participantsList, v'participantsCount, v'deadline, v'targetParticipants, v'bank, v'platformFee, v'distributedAt, v'seed, v'blockHash) = v;
+    build_0 = build_0.store_uint(v'id, 32);
+    build_0 = build_0.store_slice(v'creator);
+    build_0 = build_0.store_varuint16(v'stakeTON);
+    build_0 = build_0.store_uint(v'mode, 8);
+    build_0 = build_0.store_uint(v'status, 8);
+    build_0 = build_0.store_dict(v'participants);
+    build_0 = build_0.store_dict(v'participantsList);
+    build_0 = build_0.store_uint(v'participantsCount, 16);
+    build_0 = build_0.store_uint(v'deadline, 32);
+    build_0 = build_0.store_uint(v'targetParticipants, 16);
+    build_0 = build_0.store_varuint16(v'bank);
+    build_0 = build_0.store_varuint16(v'platformFee);
+    build_0 = build_0.store_uint(v'distributedAt, 32);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_uint(v'seed, 256);
+    build_1 = build_1.store_uint(v'blockHash, 256);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+cell $Round$_store_cell((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) v, builder b) inline {
+    return $Round$_store(b, v).end_cell();
+}
+
+(slice, ((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int))) $Round$_load(slice sc_0) inline_ref {
+    var v'id = sc_0~load_uint(32);
+    var v'creator = sc_0~load_msg_addr();
+    var v'stakeTON = sc_0~load_varuint16();
+    var v'mode = sc_0~load_uint(8);
+    var v'status = sc_0~load_uint(8);
+    var v'participants = sc_0~load_dict();
+    var v'participantsList = sc_0~load_dict();
+    var v'participantsCount = sc_0~load_uint(16);
+    var v'deadline = sc_0~load_uint(32);
+    var v'targetParticipants = sc_0~load_uint(16);
+    var v'bank = sc_0~load_varuint16();
+    var v'platformFee = sc_0~load_varuint16();
+    var v'distributedAt = sc_0~load_uint(32);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'seed = sc_1~load_uint(256);
+    var v'blockHash = sc_1~load_uint(256);
+    return (sc_0, (v'id, v'creator, v'stakeTON, v'mode, v'status, v'participants, v'participantsList, v'participantsCount, v'deadline, v'targetParticipants, v'bank, v'platformFee, v'distributedAt, v'seed, v'blockHash));
+}
+
+tuple $Round$_as_optional((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) v) inline {
+    var (v'id, v'creator, v'stakeTON, v'mode, v'status, v'participants, v'participantsList, v'participantsCount, v'deadline, v'targetParticipants, v'bank, v'platformFee, v'distributedAt, v'seed, v'blockHash) = v;
+    return __tact_tuple_create_15(v'id, v'creator, v'stakeTON, v'mode, v'status, v'participants, v'participantsList, v'participantsCount, v'deadline, v'targetParticipants, v'bank, v'platformFee, v'distributedAt, v'seed, v'blockHash);
+}
+
+tuple $Round$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $Round$_as_optional(sc~$Round$_load());
+}
+
+((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int)) $Round$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'id, slice vvv'creator, int vvv'stakeTON, int vvv'mode, int vvv'status, cell vvv'participants, cell vvv'participantsList, int vvv'participantsCount, int vvv'deadline, int vvv'targetParticipants, int vvv'bank, int vvv'platformFee, int vvv'distributedAt, int vvv'seed, int vvv'blockHash) = __tact_tuple_destroy_15(v);
+    return (vvv'id, vvv'creator, vvv'stakeTON, vvv'mode, vvv'status, vvv'participants, vvv'participantsList, vvv'participantsCount, vvv'deadline, vvv'targetParticipants, vvv'bank, vvv'platformFee, vvv'distributedAt, vvv'seed, vvv'blockHash);
+}
+
+tuple $Round$_to_tuple(((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int)) v) inline {
+    var (v'id, v'creator, v'stakeTON, v'mode, v'status, v'participants, v'participantsList, v'participantsCount, v'deadline, v'targetParticipants, v'bank, v'platformFee, v'distributedAt, v'seed, v'blockHash) = v;
+    return __tact_tuple_create_15(v'id, v'creator, v'stakeTON, v'mode, v'status, v'participants, v'participantsList, v'participantsCount, v'deadline, v'targetParticipants, v'bank, v'platformFee, v'distributedAt, v'seed, v'blockHash);
+}
+
+tuple $Round$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $Round$_to_tuple($Round$_not_null(v)); 
+}
+
+tuple $Round$_to_opt_external(tuple v) inline {
+    var loaded = $Round$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int)) $Round$_constructor_id_creator_stakeTON_mode_status_participants_participantsList_participantsCount_deadline_targetParticipants_bank_platformFee_distributedAt_seed_blockHash(int $id, slice $creator, int $stakeTON, int $mode, int $status, cell $participants, cell $participantsList, int $participantsCount, int $deadline, int $targetParticipants, int $bank, int $platformFee, int $distributedAt, int $seed, int $blockHash) inline {
+    return ($id, $creator, $stakeTON, $mode, $status, $participants, $participantsList, $participantsCount, $deadline, $targetParticipants, $bank, $platformFee, $distributedAt, $seed, $blockHash);
+}
+
+;;
+;; Type: ReferralStats
+;; TLB: _ totalInvited:uint16 totalEarned:coins totalRewards:uint16 = ReferralStats
+;;
+
+builder $ReferralStats$_store(builder build_0, (int, int, int) v) inline {
+    var (v'totalInvited, v'totalEarned, v'totalRewards) = v;
+    build_0 = build_0.store_uint(v'totalInvited, 16);
+    build_0 = build_0.store_varuint16(v'totalEarned);
+    build_0 = build_0.store_uint(v'totalRewards, 16);
+    return build_0;
+}
+
+cell $ReferralStats$_store_cell((int, int, int) v, builder b) inline {
+    return $ReferralStats$_store(b, v).end_cell();
+}
+
+(slice, ((int, int, int))) $ReferralStats$_load(slice sc_0) inline {
+    var v'totalInvited = sc_0~load_uint(16);
+    var v'totalEarned = sc_0~load_varuint16();
+    var v'totalRewards = sc_0~load_uint(16);
+    return (sc_0, (v'totalInvited, v'totalEarned, v'totalRewards));
+}
+
+tuple $ReferralStats$_as_optional((int, int, int) v) inline {
+    var (v'totalInvited, v'totalEarned, v'totalRewards) = v;
+    return __tact_tuple_create_3(v'totalInvited, v'totalEarned, v'totalRewards);
+}
+
+tuple $ReferralStats$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $ReferralStats$_as_optional(sc~$ReferralStats$_load());
+}
+
+((int, int, int)) $ReferralStats$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'totalInvited, int vvv'totalEarned, int vvv'totalRewards) = __tact_tuple_destroy_3(v);
+    return (vvv'totalInvited, vvv'totalEarned, vvv'totalRewards);
+}
+
+tuple $ReferralStats$_to_tuple(((int, int, int)) v) inline {
+    var (v'totalInvited, v'totalEarned, v'totalRewards) = v;
+    return __tact_tuple_create_3(v'totalInvited, v'totalEarned, v'totalRewards);
+}
+
+tuple $ReferralStats$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $ReferralStats$_to_tuple($ReferralStats$_not_null(v)); 
+}
+
+tuple $ReferralStats$_to_opt_external(tuple v) inline {
+    var loaded = $ReferralStats$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, int, int)) $ReferralStats$_constructor_totalInvited_totalEarned_totalRewards(int $totalInvited, int $totalEarned, int $totalRewards) inline {
+    return ($totalInvited, $totalEarned, $totalRewards);
+}
+
+;;
+;; Type: GameContract
+;; TLB: _ admin:address platformFeePercent:uint8 referralPercent:uint8 roundsCount:uint32 rounds:dict<int, ^Round{id:uint32,creator:address,stakeTON:coins,mode:uint8,status:uint8,participants:dict<address, bool>,participantsList:dict<int, address>,participantsCount:uint16,deadline:uint32,targetParticipants:uint16,bank:coins,platformFee:coins,distributedAt:uint32,seed:uint256,blockHash:uint256}> referrerOf:dict<address, address> referralStats:dict<address, ^ReferralStats{totalInvited:uint16,totalEarned:coins,totalRewards:uint16}> minStakeTON:coins maxStakeTON:coins minParticipants:uint16 maxParticipants:uint16 = GameContract
+;;
+
+builder $GameContract$_store(builder build_0, (slice, int, int, int, cell, cell, cell, int, int, int, int) v) inline {
+    var (v'admin, v'platformFeePercent, v'referralPercent, v'roundsCount, v'rounds, v'referrerOf, v'referralStats, v'minStakeTON, v'maxStakeTON, v'minParticipants, v'maxParticipants) = v;
+    build_0 = build_0.store_slice(v'admin);
+    build_0 = build_0.store_uint(v'platformFeePercent, 8);
+    build_0 = build_0.store_uint(v'referralPercent, 8);
+    build_0 = build_0.store_uint(v'roundsCount, 32);
+    build_0 = build_0.store_dict(v'rounds);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_dict(v'referrerOf);
+    build_1 = build_1.store_dict(v'referralStats);
+    build_1 = build_1.store_varuint16(v'minStakeTON);
+    build_1 = build_1.store_varuint16(v'maxStakeTON);
+    build_1 = build_1.store_uint(v'minParticipants, 16);
+    build_1 = build_1.store_uint(v'maxParticipants, 16);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+(slice, ((slice, int, int, int, cell, cell, cell, int, int, int, int))) $GameContract$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'platformFeePercent = sc_0~load_uint(8);
+    var v'referralPercent = sc_0~load_uint(8);
+    var v'roundsCount = sc_0~load_uint(32);
+    var v'rounds = sc_0~load_dict();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'referrerOf = sc_1~load_dict();
+    var v'referralStats = sc_1~load_dict();
+    var v'minStakeTON = sc_1~load_varuint16();
+    var v'maxStakeTON = sc_1~load_varuint16();
+    var v'minParticipants = sc_1~load_uint(16);
+    var v'maxParticipants = sc_1~load_uint(16);
+    return (sc_0, (v'admin, v'platformFeePercent, v'referralPercent, v'roundsCount, v'rounds, v'referrerOf, v'referralStats, v'minStakeTON, v'maxStakeTON, v'minParticipants, v'maxParticipants));
+}
+
+(slice, ((slice))) $GameContract$init$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    return (sc_0, (v'admin));
+}
+
+(slice, int, int, int, cell, cell, cell, int, int, int, int) $GameContract$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$GameContract$_load();
+    }
+    else {
+        (slice $admin) = $sc~$GameContract$init$_load();
+        $sc.end_parse();
+        return $GameContract$_contract_init($admin);
+    }
+}
+
+() $GameContract$_contract_store((slice, int, int, int, cell, cell, cell, int, int, int, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $GameContract$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract GameContract functions
+;;
+
+(slice, int, int, int, cell, cell, cell, int, int, int, int) $GameContract$_contract_init(slice $admin) impure inline {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = (null(), 5, 2, 0, null(), null(), null(), 100000000, 100000000000, 2, 100);
+    $self'admin = $admin;
+    return ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants);
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun__distributeCommission((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, int $totalFee, slice $participant) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    slice $referrer = __tact_dict_get_slice_slice($self'referrerOf, 267, $participant);
+    if ((~ null?($referrer))) {
+        int $referralReward = (($totalFee * $self'referralPercent) / 100);
+        int $adminFee = ($totalFee - $referralReward);
+        $global_send($SendParameters$_constructor_to_value_mode_body(__tact_not_null($referrer), $referralReward, 1, $ReferralReward$_store_cell($ReferralReward$_constructor_fromUser_amount_roundId($participant, $referralReward, 0), begin_cell())));
+        tuple $existingStats = $ReferralStats$_load_opt(__tact_dict_get_slice_cell($self'referralStats, 267, __tact_not_null($referrer)));
+        if (null?($existingStats)) {
+            var ($stats'totalInvited, $stats'totalEarned, $stats'totalRewards) = $ReferralStats$_constructor_totalInvited_totalEarned_totalRewards(0, 0, 0);
+            $stats'totalEarned = $stats'totalEarned + $referralReward;
+            $stats'totalRewards = $stats'totalRewards + 1;
+            $self'referralStats~__tact_dict_set_slice_cell(267, __tact_not_null($referrer), $ReferralStats$_store_cell(($stats'totalInvited, $stats'totalEarned, $stats'totalRewards), begin_cell()));
+        } else {
+            var ($stats'totalInvited, $stats'totalEarned, $stats'totalRewards) = $ReferralStats$_not_null($existingStats);
+            $stats'totalEarned = $stats'totalEarned + $referralReward;
+            $stats'totalRewards = $stats'totalRewards + 1;
+            $self'referralStats~__tact_dict_set_slice_cell(267, __tact_not_null($referrer), $ReferralStats$_store_cell(($stats'totalInvited, $stats'totalEarned, $stats'totalRewards), begin_cell()));
+        }
+        $global_send($SendParameters$_constructor_to_value_mode($self'admin, $adminFee, 1));
+    } else {
+        $global_send($SendParameters$_constructor_to_value_mode($self'admin, $totalFee, 1));
+    }
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), ());
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun__joinRound((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, int $roundId, slice $participant, int $stakeTON, slice $referrer) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var ($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash) = $Round$_not_null($Round$_load_opt(__tact_dict_get_int_cell($self'rounds, 257, $roundId)));
+    $round'participants~__tact_dict_set_slice_int(267, $participant, true, 1);
+    $round'participantsList~__tact_dict_set_int_slice(257, $round'participantsCount, $participant);
+    $round'participantsCount = $round'participantsCount + 1;
+    int $platformFee = (($stakeTON * $self'platformFeePercent) / 100);
+    int $netStake = ($stakeTON - $platformFee);
+    $round'bank = $round'bank + $netStake;
+    $round'platformFee = $round'platformFee + $platformFee;
+    ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)~$GameContract$_fun__distributeCommission($platformFee, $participant);
+    if (( (($round'mode == 1)) ? (($round'participantsCount >= $round'targetParticipants)) : (false) )) {
+        $round'status = 1;
+    }
+    $self'rounds~__tact_dict_set_int_cell(257, $roundId, $Round$_store_cell(($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash), begin_cell()));
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), ());
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), ()) $GameContract$_fun__distributePrizes((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, (int, slice, int, int, int, cell, cell, int, int, int, int, int, int, int, int) $round, int $seed, int $blockHash) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var (($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash)) = $round;
+    int $totalParticipants = $round'participantsCount;
+    int $totalPool = $round'bank;
+    int $basePayout = ((($round'stakeTON * 95) * 50) / 10000);
+    int $remainingPool = ($totalPool - ($basePayout * $totalParticipants));
+    int $randomSeed = ($seed + $blockHash);
+    int $totalWeight = 0;
+    cell $weights = null();
+    int $i = 0;
+    while (($i < $totalParticipants)) {
+        $randomSeed = ((($randomSeed * 1103515245) + 12345) % 2147483648);
+        int $weight = (($randomSeed % 1000000) + 1);
+        $weights~__tact_dict_set_int_int(257, $i, $weight, 257);
+        $totalWeight = $totalWeight + $weight;
+        $i = $i + 1;
+    }
+    $i = 0;
+    while (($i < $totalParticipants)) {
+        slice $participant = __tact_not_null(__tact_dict_get_int_slice($round'participantsList, 257, $i));
+        int $weight = __tact_not_null(__tact_dict_get_int_int($weights, 257, $i, 257));
+        int $bonusPayout = (($remainingPool * $weight) / $totalWeight);
+        int $totalPayout = ($basePayout + $bonusPayout);
+        $global_send($SendParameters$_constructor_to_value_mode($participant, $totalPayout, 1));
+        $i = $i + 1;
+    }
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), ());
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), tuple) $GameContract$_fun_getRound((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, int $roundId) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var $fresh$ret_0 = $Round$_load_opt(__tact_dict_get_int_cell($self'rounds, 257, $roundId));
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), $fresh$ret_0);
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), slice) $GameContract$_fun_getReferrer((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var $fresh$ret_1 = __tact_dict_get_slice_slice($self'referrerOf, 267, $user);
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), $fresh$ret_1);
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), tuple) $GameContract$_fun_getReferralStats((slice, int, int, int, cell, cell, cell, int, int, int, int) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var $fresh$ret_2 = $ReferralStats$_load_opt(__tact_dict_get_slice_cell($self'referralStats, 267, $user));
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), $fresh$ret_2);
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), int) $GameContract$_fun_getTotalRounds((slice, int, int, int, cell, cell, cell, int, int, int, int) $self) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var $fresh$ret_3 = $self'roundsCount;
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), $fresh$ret_3);
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), int) $GameContract$_fun_getPlatformFeePercent((slice, int, int, int, cell, cell, cell, int, int, int, int) $self) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var $fresh$ret_4 = $self'platformFeePercent;
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), $fresh$ret_4);
+}
+
+((slice, int, int, int, cell, cell, cell, int, int, int, int), int) $GameContract$_fun_getReferralPercent((slice, int, int, int, cell, cell, cell, int, int, int, int) $self) impure inline_ref {
+    var (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)) = $self;
+    var $fresh$ret_5 = $self'referralPercent;
+    return (($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants), $fresh$ret_5);
+}
+
+;;
+;; Get methods of a Contract GameContract
+;;
+
+_ %getRound(int $roundId) method_id(75858) {
+    int $roundId = $roundId;
+    var self = $GameContract$_contract_load();
+    var res = self~$GameContract$_fun_getRound($roundId);
+    return $Round$_to_opt_external(res);
+}
+
+_ %getReferrer(slice $user) method_id(109619) {
+    slice $user = $user;
+    var self = $GameContract$_contract_load();
+    var res = self~$GameContract$_fun_getReferrer($user);
+    return res;
+}
+
+_ %getReferralStats(slice $user) method_id(71885) {
+    slice $user = $user;
+    var self = $GameContract$_contract_load();
+    var res = self~$GameContract$_fun_getReferralStats($user);
+    return $ReferralStats$_to_opt_external(res);
+}
+
+_ %getTotalRounds() method_id(84466) {
+    var self = $GameContract$_contract_load();
+    var res = self~$GameContract$_fun_getTotalRounds();
+    return res;
+}
+
+_ %getPlatformFeePercent() method_id(117596) {
+    var self = $GameContract$_contract_load();
+    var res = self~$GameContract$_fun_getPlatformFeePercent();
+    return res;
+}
+
+_ %getReferralPercent() method_id(82538) {
+    var self = $GameContract$_contract_load();
+    var res = self~$GameContract$_fun_getReferralPercent();
+    return res;
+}
+
+;;
+;; Routing of a Contract GameContract
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants) = $GameContract$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+        ;; Receive CreateRound message
+        if (op == 4022962775) {
+            var $msg'stakeTON = in_msg~load_varuint16();
+            var $msg'mode = in_msg~load_uint(8);
+            var $msg'deadline = in_msg~load_uint(32);
+            var $msg'targetParticipants = in_msg~load_uint(16);
+            var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+            throw_unless(52756, ($ctx'value >= ($msg'stakeTON + 50000000)));
+            throw_unless(9959, ($msg'stakeTON >= $self'minStakeTON));
+            throw_unless(32542, ($msg'stakeTON <= $self'maxStakeTON));
+            $self'roundsCount = $self'roundsCount + 1;
+            var ($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash) = $Round$_constructor_id_creator_stakeTON_mode_status_participants_participantsList_participantsCount_deadline_targetParticipants_bank_platformFee_distributedAt_seed_blockHash($self'roundsCount, $ctx'sender, $msg'stakeTON, $msg'mode, 0, null(), null(), 0, $msg'deadline, $msg'targetParticipants, 0, 0, 0, 0, 0);
+            $self'rounds~__tact_dict_set_int_cell(257, $self'roundsCount, $Round$_store_cell(($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash), begin_cell()));
+            ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)~$GameContract$_fun__joinRound($self'roundsCount, $ctx'sender, $msg'stakeTON, null());
+            $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+            return ();
+        }
+        
+        ;; Receive JoinRound message
+        if (op == 1454043309) {
+            var $msg'roundId = in_msg~load_uint(32);
+            var $msg'referrer = in_msg~__tact_load_address_opt();
+            var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+            var ($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash) = $Round$_not_null($Round$_load_opt(__tact_dict_get_int_cell($self'rounds, 257, $msg'roundId)));
+            throw_unless(4925, ($round'status == 0));
+            throw_unless(2805, ($ctx'value >= ($round'stakeTON + 50000000)));
+            throw_unless(1409, __tact_int_neq_nullable_left(__tact_dict_get_slice_int($round'participants, 267, $ctx'sender, 1), true));
+            if (( ((~ null?($msg'referrer))) ? (null?(__tact_dict_get_slice_slice($self'referrerOf, 267, $ctx'sender))) : (false) )) {
+                $self'referrerOf~__tact_dict_set_slice_slice(267, $ctx'sender, __tact_not_null($msg'referrer));
+                tuple $existingStats = $ReferralStats$_load_opt(__tact_dict_get_slice_cell($self'referralStats, 267, __tact_not_null($msg'referrer)));
+                if (null?($existingStats)) {
+                    var ($stats'totalInvited, $stats'totalEarned, $stats'totalRewards) = $ReferralStats$_constructor_totalInvited_totalEarned_totalRewards(0, 0, 0);
+                    $stats'totalInvited = $stats'totalInvited + 1;
+                    $self'referralStats~__tact_dict_set_slice_cell(267, __tact_not_null($msg'referrer), $ReferralStats$_store_cell(($stats'totalInvited, $stats'totalEarned, $stats'totalRewards), begin_cell()));
+                } else {
+                    var ($stats'totalInvited, $stats'totalEarned, $stats'totalRewards) = $ReferralStats$_not_null($existingStats);
+                    $stats'totalInvited = $stats'totalInvited + 1;
+                    $self'referralStats~__tact_dict_set_slice_cell(267, __tact_not_null($msg'referrer), $ReferralStats$_store_cell(($stats'totalInvited, $stats'totalEarned, $stats'totalRewards), begin_cell()));
+                }
+            }
+            ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)~$GameContract$_fun__joinRound($msg'roundId, $ctx'sender, $round'stakeTON, $msg'referrer);
+            $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+            return ();
+        }
+        
+        ;; Receive SetReferrer message
+        if (op == 360110510) {
+            var $msg'inviter = in_msg~load_msg_addr();
+            var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+            throw_unless(54203, null?(__tact_dict_get_slice_slice($self'referrerOf, 267, $ctx'sender)));
+            throw_unless(12339, ( ~ equal_slices_bits($msg'inviter, $ctx'sender) ));
+            $self'referrerOf~__tact_dict_set_slice_slice(267, $ctx'sender, $msg'inviter);
+            tuple $existingStats = $ReferralStats$_load_opt(__tact_dict_get_slice_cell($self'referralStats, 267, $msg'inviter));
+            if (null?($existingStats)) {
+                var ($stats'totalInvited, $stats'totalEarned, $stats'totalRewards) = $ReferralStats$_constructor_totalInvited_totalEarned_totalRewards(0, 0, 0);
+                $stats'totalInvited = $stats'totalInvited + 1;
+                $self'referralStats~__tact_dict_set_slice_cell(267, $msg'inviter, $ReferralStats$_store_cell(($stats'totalInvited, $stats'totalEarned, $stats'totalRewards), begin_cell()));
+            } else {
+                var ($stats'totalInvited, $stats'totalEarned, $stats'totalRewards) = $ReferralStats$_not_null($existingStats);
+                $stats'totalInvited = $stats'totalInvited + 1;
+                $self'referralStats~__tact_dict_set_slice_cell(267, $msg'inviter, $ReferralStats$_store_cell(($stats'totalInvited, $stats'totalEarned, $stats'totalRewards), begin_cell()));
+            }
+            $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+            return ();
+        }
+        
+        ;; Receive DistributeRound message
+        if (op == 3093325733) {
+            var $msg'roundId = in_msg~load_uint(32);
+            var $msg'seed = in_msg~load_uint(256);
+            var $msg'blockHash = in_msg~load_uint(256);
+            throw_unless(3502, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+            var ($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash) = $Round$_not_null($Round$_load_opt(__tact_dict_get_int_cell($self'rounds, 257, $msg'roundId)));
+            throw_unless(34371, ($round'status == 1));
+            throw_unless(29056, ($round'participantsCount >= $self'minParticipants));
+            $round'status = 2;
+            $round'distributedAt = $global_now();
+            $round'seed = $msg'seed;
+            $round'blockHash = $msg'blockHash;
+            ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)~$GameContract$_fun__distributePrizes(($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash), $msg'seed, $msg'blockHash);
+            $self'rounds~__tact_dict_set_int_cell(257, $msg'roundId, $Round$_store_cell(($round'id, $round'creator, $round'stakeTON, $round'mode, $round'status, $round'participants, $round'participantsList, $round'participantsCount, $round'deadline, $round'targetParticipants, $round'bank, $round'platformFee, $round'distributedAt, $round'seed, $round'blockHash), begin_cell()));
+            $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+            return ();
+        }
+        
+        ;; Receive UpdateFee message
+        if (op == 2921075543) {
+            var $msg'platformFeePercent = in_msg~load_int(257);
+            var $msg'referralPercent = in_msg~load_int(257);
+            var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+            throw_unless(16461, ( equal_slices_bits($ctx'sender, $self'admin) ));
+            int $p = $msg'platformFeePercent;
+            int $r = $msg'referralPercent;
+            throw_unless(62817, ( (($p >= 0)) ? (($p <= 100)) : (false) ));
+            throw_unless(19465, ( (($r >= 0)) ? (($r <= 100)) : (false) ));
+            throw_unless(46812, ($r <= $p));
+            $self'platformFeePercent = $p;
+            $self'referralPercent = $r;
+            $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+            return ();
+        }
+        
+        ;; Receive Deploy message
+        if (op == 0x946a98b6) {
+            var $deploy'queryId = in_msg~load_uint(64);
+            ($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants)~$GameContract$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId), begin_cell()));
+            $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+            return ();
+        }
+        
+    }
+    ;; Empty Receiver and Text Receivers
+    var text_op = slice_hash(in_msg);
+    ;; Receive "withdraw_fees" message
+    if (text_op == 0xe944ec21c357d5274e46746b5bbe7d36de7a894b603aafe01e764256f7e52df8) {
+        throw_unless(16461, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        $global_send($SendParameters$_constructor_to_value_mode($self'admin, 0, 128));
+        $GameContract$_contract_store(($self'admin, $self'platformFeePercent, $self'referralPercent, $self'roundsCount, $self'rounds, $self'referrerOf, $self'referralStats, $self'minStakeTON, $self'maxStakeTON, $self'minParticipants, $self'maxParticipants));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

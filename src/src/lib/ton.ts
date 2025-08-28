@@ -1,13 +1,46 @@
-// TON blockchain contract interactions
+// src/src/lib/ton.ts
+// TON blockchain contract interactions (fixed)
+import { beginCell, toNano, fromNano } from '@ton/core'
+import { getConnectedAddress } from './tonConnect' // ← новый импорт
 import { CONFIG } from '../config'
-import { TonClient, Address } from 'ton'
-import { beginCell } from '@ton/core'
+
+// Используем актуальные пакеты
+import { TonClient, Address } from '@ton/ton'
+import { beginCell, toNano, fromNano } from '@ton/core'
+import { getHttpEndpoint } from '@orbs-network/ton-access'
+
 import { sendTransaction } from './tonConnect'
 
-// Resolved contract address from environment configuration
-const CONTRACT_ADDRESS: string = CONFIG.CONTRACT_ADDRESS
+// -----------------------------------------------------------------------------
+// Константы и утилиты
+// -----------------------------------------------------------------------------
 
-// Enums matching the smart contract
+// Адрес контракта из конфигурации
+const CONTRACT_ADDRESS: string = CONFIG.CONTRACT_ADDRESS || ''
+
+// Минимальный запас на газ (подправишь при необходимости)
+const MIN_GAS = toNano('0.05')
+
+// Ленивая инициализация клиента через TON Access
+let client: TonClient | null = null
+async function getClient(): Promise<TonClient> {
+  if (client) return client
+  const endpoint = await getHttpEndpoint({ network: CONFIG.NETWORK })
+  client = new TonClient({ endpoint })
+  return client
+}
+
+function ensureContractAddress(): string {
+  if (!CONTRACT_ADDRESS) {
+    throw new Error('Contract address not configured')
+  }
+  return CONTRACT_ADDRESS
+}
+
+// -----------------------------------------------------------------------------
+// Типы, matching смарт-контракт
+// -----------------------------------------------------------------------------
+
 export enum RoundMode {
   TIME_LOCKED = 0,
   CAPACITY_LOCKED = 1
@@ -20,7 +53,6 @@ export enum RoundStatus {
   REFUNDED = 3
 }
 
-// Contract data structures
 export interface ContractRound {
   id: number
   mode: RoundMode
@@ -33,8 +65,7 @@ export interface ContractRound {
   platformFee: bigint
   creator: string
   createdAt: number
-  
-  // For completed rounds
+  // completed
   seed?: string
   blockHash?: string
   blockHeight?: number
@@ -68,17 +99,9 @@ export interface CreateRoundParams {
   targetParticipants?: number
 }
 
-let client: TonClient | null = null
-
-function getClient(): TonClient {
-  if (client) return client
-  const endpoint =
-    CONFIG.NETWORK === 'mainnet'
-      ? 'https://toncenter.com/api/v2/jsonRPC'
-      : 'https://testnet.toncenter.com/api/v2/jsonRPC'
-  client = new TonClient({ endpoint })
-  return client
-}
+// -----------------------------------------------------------------------------
+// Парсеры ответов get-method
+// -----------------------------------------------------------------------------
 
 function parseRounds(res: any): ContractRound[] {
   const items = (res?.stack?.items ?? []) as any[]
@@ -94,6 +117,7 @@ function parseRounds(res: any): ContractRound[] {
       const createdAt = Number(slice.loadUint(32))
       const totalPool = slice.loadCoins()
       const platformFee = slice.loadCoins()
+      // NOTE: если контракт возвращает больше полей — распарси здесь
       return {
         id,
         mode,
@@ -138,18 +162,35 @@ function parseReferral(res: any): ReferralStats {
   }
 }
 
-// Contract interaction functions
+// -----------------------------------------------------------------------------
+// Публичные утилиты
+// -----------------------------------------------------------------------------
+
+export async function fetchWalletBalance(addr: string): Promise<number> {
+  const c = await getClient()
+  const bal = await c.getBalance(Address.parse(addr))
+  return Number(fromNano(bal))
+}
+
+export function isContractDeployed(): boolean {
+  return !!CONTRACT_ADDRESS
+}
+
+export function getContractAddress(): string {
+  return CONTRACT_ADDRESS
+}
+
+// -----------------------------------------------------------------------------
+// Get-методы контракта
+// -----------------------------------------------------------------------------
+
 export async function getActiveRounds(): Promise<ContractRound[]> {
   try {
-    if (!CONTRACT_ADDRESS) throw new Error('Contract address not configured')
-    const res = await getClient().callGetMethod(
-      Address.parse(CONTRACT_ADDRESS),
-      'get_active_rounds',
-      []
-    )
+    const addr = Address.parse(ensureContractAddress())
+    const c = await getClient()
+    const res = await c.callGetMethod(addr, 'get_active_rounds', [])
     return parseRounds(res).filter(
-      round =>
-        round.status === RoundStatus.OPEN || round.status === RoundStatus.LOCKED
+      r => r.status === RoundStatus.OPEN || r.status === RoundStatus.LOCKED
     )
   } catch (error) {
     console.error('Failed to fetch active rounds:', error)
@@ -159,18 +200,11 @@ export async function getActiveRounds(): Promise<ContractRound[]> {
 
 export async function getRoundHistory(limit: number = 20): Promise<ContractRound[]> {
   try {
-    if (!CONTRACT_ADDRESS) throw new Error('Contract address not configured')
-    const res = await getClient().callGetMethod(
-      Address.parse(CONTRACT_ADDRESS),
-      'get_round_history',
-      []
-    )
+    const addr = Address.parse(ensureContractAddress())
+    const c = await getClient()
+    const res = await c.callGetMethod(addr, 'get_round_history', [])
     return parseRounds(res)
-      .filter(
-        round =>
-          round.status === RoundStatus.DISTRIBUTED ||
-          round.status === RoundStatus.REFUNDED
-      )
+      .filter(r => r.status === RoundStatus.DISTRIBUTED || r.status === RoundStatus.REFUNDED)
       .slice(0, limit)
   } catch (error) {
     console.error('Failed to fetch round history:', error)
@@ -180,15 +214,10 @@ export async function getRoundHistory(limit: number = 20): Promise<ContractRound
 
 export async function getUserReferralStats(userAddress: string): Promise<ReferralStats> {
   try {
-    if (!CONTRACT_ADDRESS) throw new Error('Contract address not configured')
-    const payload = beginCell()
-      .storeAddress(Address.parse(userAddress))
-      .endCell()
-    const res = await getClient().callGetMethod(
-      Address.parse(CONTRACT_ADDRESS),
-      'get_referral_stats',
-      [{ type: 'slice', cell: payload }]
-    )
+    const addr = Address.parse(ensureContractAddress())
+    const c = await getClient()
+    const payload = beginCell().storeAddress(Address.parse(userAddress)).endCell()
+    const res = await c.callGetMethod(addr, 'get_referral_stats', [{ type: 'slice', cell: payload }])
     return parseReferral(res)
   } catch (error) {
     console.error('Failed to fetch referral stats:', error)
@@ -196,11 +225,29 @@ export async function getUserReferralStats(userAddress: string): Promise<Referra
   }
 }
 
+// -----------------------------------------------------------------------------
+// Мутации (транзакции)
+// -----------------------------------------------------------------------------
+
 export async function createRound(params: CreateRoundParams): Promise<TransactionResult> {
   try {
-    if (!CONTRACT_ADDRESS) {
-      return { success: false, error: 'Contract address not configured' }
+    if (!CONTRACT_ADDRESS) return { success: false, error: 'Contract address not configured' }
+
+    const user = getConnectedAddress()
+    if (!user) return { success: false, error: 'Wallet not connected' }
+
+    // Сколько нужно TON на ставку + газ
+    const need = params.stakeNanoton + MIN_GAS
+
+    // Проверяем баланс пользователя
+    const haveTON = await fetchWalletBalance(user)
+    const have = toNano(haveTON.toString()) // в нанотонах
+
+    if (have < need) {
+      const needView = Number(fromNano(need))
+      return { success: false, error: `Недостаточно TON. Нужно ≥ ${needView.toFixed(3)} TON` }
     }
+
     const payload = beginCell()
       .storeUint(0x01, 32)
       .storeUint(params.mode, 8)
@@ -208,90 +255,98 @@ export async function createRound(params: CreateRoundParams): Promise<Transactio
       .storeUint(params.deadline ?? 0, 32)
       .storeUint(params.targetParticipants ?? 0, 16)
       .endCell()
+
     const result = await sendTransaction({
       to: CONTRACT_ADDRESS,
-      amount: params.stakeNanoton.toString(),
+      amount: need.toString(), // ставка + газ
       payload: payload.toBoc().toString('base64')
     })
+
     return { success: true, hash: result?.hash }
   } catch (error) {
     console.error('Failed to create round:', error)
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to create round'
-    }
+    return { success: false, error: error instanceof Error ? error.message : 'Failed to create round' }
   }
 }
+
 
 export async function joinRound(roundId: number, referrer?: string): Promise<TransactionResult> {
   try {
-    if (!CONTRACT_ADDRESS) {
-      return { success: false, error: 'Contract address not configured' }
+    if (!CONTRACT_ADDRESS) return { success: false, error: 'Contract address not configured' }
+
+    const user = getConnectedAddress()
+    if (!user) return { success: false, error: 'Wallet not connected' }
+
+    const haveTON = await fetchWalletBalance(user)
+    const have = toNano(haveTON.toString())
+
+    if (have < MIN_GAS) {
+      return { success: false, error: 'Недостаточно TON для газа (~0.05 TON)' }
     }
+
     const builder = beginCell().storeUint(0x02, 32).storeUint(roundId, 32)
-    if (referrer) {
-      builder.storeAddress(Address.parse(referrer))
-    }
+    if (referrer) builder.storeAddress(Address.parse(referrer))
     const payload = builder.endCell()
+
     const result = await sendTransaction({
       to: CONTRACT_ADDRESS,
-      amount: '0',
+      amount: MIN_GAS.toString(),
       payload: payload.toBoc().toString('base64')
     })
+
     return { success: true, hash: result?.hash }
   } catch (error) {
     console.error('Failed to join round:', error)
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to join round'
-    }
+    return { success: false, error: error instanceof Error ? error.message : 'Failed to join round' }
   }
 }
 
+
 export async function withdraw(roundId: number): Promise<TransactionResult> {
   try {
-    if (!CONTRACT_ADDRESS) {
-      return { success: false, error: 'Contract address not configured' }
+    if (!CONTRACT_ADDRESS) return { success: false, error: 'Contract address not configured' }
+
+    const user = getConnectedAddress()
+    if (!user) return { success: false, error: 'Wallet not connected' }
+
+    const haveTON = await fetchWalletBalance(user)
+    const have = toNano(haveTON.toString())
+
+    if (have < MIN_GAS) {
+      return { success: false, error: 'Недостаточно TON для газа (~0.05 TON)' }
     }
+
     const payload = beginCell()
       .storeUint(0x03, 32)
       .storeUint(roundId, 32)
       .endCell()
+
     const result = await sendTransaction({
       to: CONTRACT_ADDRESS,
-      amount: '0',
+      amount: MIN_GAS.toString(),
       payload: payload.toBoc().toString('base64')
     })
+
     return { success: true, hash: result?.hash }
   } catch (error) {
     console.error('Failed to withdraw:', error)
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to withdraw'
-    }
+    return { success: false, error: error instanceof Error ? error.message : 'Failed to withdraw' }
   }
 }
 
-// Utility functions
-export function isContractDeployed(): boolean {
-  return !!CONFIG.CONTRACT_ADDRESS
-}
 
-export function getContractAddress(): string {
-  return CONFIG.CONTRACT_ADDRESS
-}
+// -----------------------------------------------------------------------------
+// Инициализация
+// -----------------------------------------------------------------------------
 
-// Initialize contract connection
 export async function initializeContract(): Promise<void> {
   try {
     console.log('Initializing contract connection...')
-
     if (!isContractDeployed()) {
       console.warn('Contract address not configured')
       return
     }
-
-    getClient()
+    await getClient()
     console.log('Contract initialized successfully')
   } catch (error) {
     console.error('Failed to initialize contract:', error)

@@ -49,7 +49,9 @@ export const CONFIG = {
   ENABLE_DEBUG: getEnvVar('NODE_ENV') === 'development',
   
   // TON Connect
-  TON_CONNECT_MANIFEST_URL: getEnvVar('VITE_TON_CONNECT_MANIFEST_URL') || `${getOrigin()}/tonconnect-manifest.json`,
+TON_CONNECT_MANIFEST_URL:
+  getEnvVar('VITE_TON_CONNECT_MANIFEST_URL') ||
+  `${getOrigin()}${(typeof import.meta !== 'undefined' && (import.meta as any).env?.BASE_URL) || '/'}tonconnect-manifest.json?v=${Date.now()}`,
   
   // API endpoints (if using backend)
   API_BASE_URL: getEnvVar('VITE_API_BASE_URL'),
