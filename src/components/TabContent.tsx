@@ -8,7 +8,6 @@ import { Button } from './ui/button'
 import { Gamepad2, History, Plus, RefreshCw } from 'lucide-react'
 import { t } from '../src/i18n'
 import { CONFIG } from '../src/config'
-import { formatTon } from '../src/lib/ton-format'
 
 interface TabContentProps {
   activeTab: 'games' | 'history' | 'create' | 'profile'
@@ -155,7 +154,7 @@ export function TabContent({
           onCreateRound={onCreateRound}
           platformFeePercent={CONFIG.PLATFORM_FEE_BPS / 100}
           disabled={!isWalletConnected || !isValidNetwork}
-          walletBalance={formatTon(walletBalance)}
+          walletBalance={walletBalance}
         />
       </div>
     )

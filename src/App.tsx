@@ -27,7 +27,8 @@ import { CONFIG } from './src/config'
 import { initializeLanguage, t } from './src/i18n'
 import { useFeatureCards } from './src/hooks/useFeatureCards'
 import { useGameService } from './src/hooks/useGameService'
-import { formatTon } from './src/lib/ton-format'
+import { tonToNanoton } from './src/lib/ton-format'
+import { fetchWalletBalance } from './src/lib/ton'
 
 function AppContent() {
   // TON Connect hooks (these remain as mocks for now)
@@ -58,7 +59,7 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState<'games' | 'history' | 'create' | 'profile'>('games')
   const [showOnboarding, setShowOnboarding] = useState(false)
   
-  // Mock wallet balance (only remaining mock data)
+  // Wallet balance in nanotons
   const [walletBalance, setWalletBalance] = useState<bigint>(0n)
   
   // Loading States
@@ -116,17 +117,25 @@ function AppContent() {
   // Handle wallet connection changes
   useEffect(() => {
     updateNetworkStatus()
-    
-    if (address && wallet) {
-      // Initialize user in the game system
-      initializeUser(address)
-      // Mock wallet balance for demo
-      setWalletBalance(BigInt('5000000000')) // 5 TON
-    } else {
-      // Clear user data when wallet disconnected
-      setWalletBalance(0n)
+
+    const loadBalance = async () => {
+      if (address) {
+        // Initialize user in the game system
+        initializeUser(address)
+        try {
+          const bal = await fetchWalletBalance(address)
+          setWalletBalance(tonToNanoton(bal))
+        } catch {
+          setWalletBalance(0n)
+        }
+      } else {
+        // Clear user data when wallet disconnected
+        setWalletBalance(0n)
+      }
     }
-  }, [address, wallet, initializeUser])
+
+    loadBalance()
+  }, [address, initializeUser])
 
   // Handle referral from URL
   useEffect(() => {
@@ -159,12 +168,12 @@ function AppContent() {
   const updateNetworkStatus = () => {
     try {
       const connected = Boolean(address && wallet)
-      const network = CONFIG.NETWORK
-      const isValidNetwork = connected
-      
+      const walletNet = (wallet as any)?.account?.chain?.toLowerCase?.().includes('main') ? 'mainnet' : 'testnet'
+      const isValidNetwork = walletNet === CONFIG.NETWORK
+
       setNetworkStatus({
         connected,
-        network,
+        network: walletNet,
         isValidNetwork
       })
     } catch (error) {

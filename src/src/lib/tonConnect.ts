@@ -1,6 +1,8 @@
 // src/src/lib/tonConnect.ts
-import { TonConnect } from '@tonconnect/sdk';
-import { CONFIG } from '../config';
+import { TonConnect } from '@tonconnect/sdk'
+import { TonClient, Address } from '@ton/ton'
+import { getHttpEndpoint } from '@orbs-network/ton-access'
+import { CONFIG } from '../config'
 
 // Формируем manifestUrl (как и раньше)
 const manifestUrl =
@@ -10,11 +12,11 @@ const manifestUrl =
   }tonconnect-manifest.json`;
 
 // Единственный экземпляр SDK (без UI, значит НЕ создаёт <tc-root>)
-export const tc = new TonConnect({ manifestUrl });
+export const tc = new TonConnect({ manifestUrl })
 
 // Текущий адрес (если подключен)
 export function getConnectedAddress(): string | null {
-  return tc.account?.address ?? null;
+  return tc.account?.address ?? null
 }
 
 // Унифицированная отправка транзакции через SDK
@@ -32,5 +34,27 @@ export async function sendTransaction(opts: { to: string; amount: string; payloa
     ],
   });
 
-  return { hash: undefined as string | undefined };
+  return { hash: undefined as string | undefined }
 }
+
+// Определяем текущую сеть кошелька
+export function getCurrentNetwork(): 'mainnet' | 'testnet' | null {
+  const chain = (tc.account as any)?.chain
+  if (!chain) return null
+  if (typeof chain === 'string') {
+    return chain.toLowerCase().includes('main') ? 'mainnet' : 'testnet'
+  }
+  return Number(chain) === 0 ? 'mainnet' : 'testnet'
+}
+
+// Получаем баланс подключённого кошелька (в нанотонах)
+export async function getWalletBalance(addr?: string): Promise<bigint> {
+  const address = addr ?? getConnectedAddress()
+  if (!address) return 0n
+
+  const network = getCurrentNetwork() || CONFIG.NETWORK
+  const endpoint = await getHttpEndpoint({ network })
+  const client = new TonClient({ endpoint })
+  return client.getBalance(Address.parse(address))
+}
+
