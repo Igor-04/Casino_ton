@@ -2,6 +2,7 @@ import { GameDataStore, GameRound, PayoutDistribution } from '../store/gameStore
 import { AnalyticsService } from './analyticsService'
 import { NotificationService } from './notificationService'
 import { CONFIG } from '../config'
+import { fetchWalletBalance } from '../lib/ton'
 
 interface CreateRoundParams {
   mode: 'TIME_LOCKED' | 'CAPACITY_LOCKED'
@@ -75,6 +76,12 @@ class GameService {
         return { success: false, error: validation.error }
       }
 
+      // Check wallet balance
+      const balance = await fetchWalletBalance(params.creatorAddress)
+      if (!Number.isFinite(balance) || balance < params.stakeTON) {
+        return { success: false, error: 'Insufficient wallet balance' }
+      }
+
       // Create the round
       const round = this.store.createRound({
         mode: params.mode,
@@ -144,6 +151,12 @@ class GameService {
         if (Math.floor(Date.now() / 1000) >= round.deadline) {
           return { success: false, error: 'Round deadline has passed' }
         }
+      }
+
+      // Check wallet balance before joining
+      const balance = await fetchWalletBalance(userAddress)
+      if (!Number.isFinite(balance) || balance < round.stakeTON) {
+        return { success: false, error: 'Insufficient wallet balance' }
       }
 
       // Join the round

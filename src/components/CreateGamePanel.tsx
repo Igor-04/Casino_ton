@@ -1,20 +1,22 @@
 import { useState } from 'react'
+import { toast } from 'sonner@2.0.3'
 import { Card } from './ui/card'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Separator } from './ui/separator'
-import { 
-  Clock, 
-  Users, 
-  Coins, 
-  Plus, 
+import {
+  Clock,
+  Users,
+  Coins,
+  Plus,
   Info,
   Calendar,
   Target
 } from 'lucide-react'
 import { Alert, AlertDescription } from './ui/alert'
+import { formatTon, nanotonToTon } from '../src/lib/ton-format'
 
 interface CreateGamePanelProps {
   onCreateRound: (roundData: {
@@ -25,14 +27,14 @@ interface CreateGamePanelProps {
   }) => void
   platformFeePercent: number
   disabled?: boolean
-  walletBalance: string
+  walletBalance: bigint
 }
 
 export function CreateGamePanel({ 
   onCreateRound, 
-  platformFeePercent, 
+  platformFeePercent,
   disabled = false,
-  walletBalance 
+  walletBalance
 }: CreateGamePanelProps) {
   const [mode, setMode] = useState<'TIME_LOCKED' | 'CAPACITY_LOCKED'>('TIME_LOCKED')
   const [stakeTON, setStakeTON] = useState('')
@@ -47,6 +49,12 @@ export function CreateGamePanel({
 
     const stake = parseFloat(stakeTON)
     if (isNaN(stake) || stake <= 0) {
+      return
+    }
+
+    const available = nanotonToTon(walletBalance)
+    if (stake > available) {
+      toast.error('Недостаточно баланса')
       return
     }
 
@@ -179,7 +187,7 @@ export function CreateGamePanel({
             />
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>Минимум: 0.1 TON</span>
-              <span>Баланс: {walletBalance}</span>
+              <span>Баланс: {formatTon(walletBalance)}</span>
             </div>
           </div>
 

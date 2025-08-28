@@ -1,15 +1,10 @@
 // src/src/lib/ton.ts
 // TON blockchain contract interactions (fixed)
 import { beginCell, toNano, fromNano } from '@ton/core'
-import { getConnectedAddress } from './tonConnect' // ← новый импорт
-import { CONFIG } from '../config'
-
-// Используем актуальные пакеты
 import { TonClient, Address } from '@ton/ton'
-import { beginCell, toNano, fromNano } from '@ton/core'
 import { getHttpEndpoint } from '@orbs-network/ton-access'
-
-import { sendTransaction } from './tonConnect'
+import { getConnectedAddress, sendTransaction, getWalletBalance } from './tonConnect'
+import { CONFIG } from '../config'
 
 // -----------------------------------------------------------------------------
 // Константы и утилиты
@@ -22,12 +17,12 @@ const CONTRACT_ADDRESS: string = CONFIG.CONTRACT_ADDRESS || ''
 const MIN_GAS = toNano('0.05')
 
 // Ленивая инициализация клиента через TON Access
-let client: TonClient | null = null
-async function getClient(): Promise<TonClient> {
-  if (client) return client
-  const endpoint = await getHttpEndpoint({ network: CONFIG.NETWORK })
-  client = new TonClient({ endpoint })
-  return client
+let clients: { [key in 'mainnet' | 'testnet']?: TonClient } = {}
+async function getClient(network: 'mainnet' | 'testnet' = CONFIG.NETWORK): Promise<TonClient> {
+  if (clients[network]) return clients[network]!
+  const endpoint = await getHttpEndpoint({ network })
+  clients[network] = new TonClient({ endpoint })
+  return clients[network]!
 }
 
 function ensureContractAddress(): string {
@@ -167,9 +162,13 @@ function parseReferral(res: any): ReferralStats {
 // -----------------------------------------------------------------------------
 
 export async function fetchWalletBalance(addr: string): Promise<number> {
-  const c = await getClient()
-  const bal = await c.getBalance(Address.parse(addr))
-  return Number(fromNano(bal))
+  try {
+    const bal = await getWalletBalance(addr)
+    return Number(fromNano(bal))
+  } catch (err) {
+    console.error('Failed to fetch wallet balance:', err)
+    return 0
+  }
 }
 
 export function isContractDeployed(): boolean {
